@@ -32,6 +32,7 @@
     "TestNG.DemoqaTest.executor": "Run",
     "TestNG.DemoqaTest.testAddRecord.executor": "Run",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/tugce/OneDrive/Masaüstü/WORK/HomeWork15",
     "onboarding.tips.debug.path": "C:/Users/tugce/OneDrive/Masaüstü/HomeWork15/src/main/java/org/example/Main.java"
   }
 }]]></component>
@@ -45,16 +46,5 @@
       <updated>1722623208108</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>13</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -1,5 +1,6 @@
 package demoqa.com.test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +12,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
 
 public class DemoqaTest {
@@ -19,7 +19,8 @@ public class DemoqaTest {
 
     @BeforeClass
     public void setup() {
-        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+
+        WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
@@ -28,7 +29,7 @@ public class DemoqaTest {
 
         driver = new ChromeDriver(options);
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         driver.manage().window().maximize();
 
         driver.get("https://demoqa.com/buttons");
@@ -57,14 +58,17 @@ public class DemoqaTest {
 
         btnClick.click();
 
-        WebElement result = driver.findElement(By.xpath("//p[@id='dynamicClickMessage']"));
+        WebElement result = driver.findElement(By.xpath("//*[@id='dynamicClickMessage']"));
         Assert.assertEquals(result.getText(), "You have done a dynamic click");
     }
-    @Test (priority =2)
+
+    @Test(priority = 2)
     public void testAddRecord() {
         driver.get("https://demoqa.com/webtables");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
         WebElement btnAdd = driver.findElement(By.xpath("//button[text()=\"Add\"]"));
-        btnAdd.click();
+        js.executeScript("arguments[0].click();", btnAdd);
 
         WebElement textFirstName = driver.findElement(By.xpath("//*[@id='firstName']"));
         WebElement textLastName = driver.findElement(By.xpath("//*[@id='lastName']"));
@@ -84,17 +88,19 @@ public class DemoqaTest {
         btnSubmit.click();
 
         WebElement btnEdit = driver.findElement(By.xpath("//div[contains(text(), 'Demir Ege')]//..//div[@class='action-buttons']//span[contains(@title, 'Edit')]"));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", btnEdit);
-        btnEdit.click();
+        js.executeScript("arguments[0].click();", btnEdit);
 
-        textSalary.findElement(By.xpath("//*[@id='salary']"));
+        textSalary = driver.findElement(By.xpath("//*[@id='salary']"));
         textSalary.clear();
         textSalary.sendKeys("25000");
+
+        btnSubmit = driver.findElement(By.xpath("//*[@id='submit']"));
+        btnSubmit.click();
 
         WebElement salaryCell = driver.findElement(By.xpath("//div[contains(text(), 'Demir Ege')]//following-sibling::div[4]"));
         Assert.assertEquals(salaryCell.getText(), "25000");
     }
+
     @AfterClass
     public void teardown() {
         if (driver != null) {
