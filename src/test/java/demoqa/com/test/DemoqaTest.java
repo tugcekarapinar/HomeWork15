@@ -37,9 +37,14 @@ public class DemoqaTest {
 
     @Test(priority = 0)
     public void testDoubleClickButton() {
-        WebElement btnDoubleClick = driver.findElement(By.xpath("//button[text()=\"Double Click Me\"]"));
-
         JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        driver.get("https://demoqa.com/elements");
+        WebElement buttons = driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div[1]/div/div/div[1]/div/ul/li[5]"));
+        js.executeScript("arguments[0].scrollIntoView(true);", buttons);
+        buttons.click();
+
+        WebElement btnDoubleClick = driver.findElement(By.xpath("//button[text()=\"Double Click Me\"]"));
         js.executeScript("arguments[0].scrollIntoView(true);", btnDoubleClick);
 
         Actions actions = new Actions(driver);
@@ -51,11 +56,15 @@ public class DemoqaTest {
 
     @Test(priority = 1)
     public void testClickButton() {
-        WebElement btnClick = driver.findElement(By.xpath("//button[text()=\"Click Me\"]"));
-
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", btnClick);
 
+        driver.get("https://demoqa.com/elements");
+        WebElement buttons = driver.findElement(By.xpath("//*[@id='item-4']"));
+        js.executeScript("arguments[0].scrollIntoView(true);", buttons);
+        buttons.click();
+
+        WebElement btnClick = driver.findElement(By.xpath("//button[text()=\"Click Me\"]"));
+        js.executeScript("arguments[0].scrollIntoView(true);", btnClick);
         btnClick.click();
 
         WebElement result = driver.findElement(By.xpath("//*[@id='dynamicClickMessage']"));
